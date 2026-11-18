@@ -1,6 +1,6 @@
 /* Routing, theme, sub-navigation */
 (() => {
-  const views = ["home", "quiz", "t-cell-lab", "b-cell-lab", "summary"];
+  const views = ["home", "quiz", "t-cell-lab", "b-cell-lab", "cytokine-match", "summary"];
   function route() {
     const h = location.hash.replace("#", "");
     const v = views.includes(h) ? h : "home";
@@ -29,5 +29,6 @@
 
   Models.init();
   Quiz.init();
+  Match.init();
   route();
 })();

@@ -18,6 +18,7 @@
       <a href="#quiz" data-view="quiz">Practice quiz</a>
       <a href="#t-cell-lab" data-view="t-cell-lab">T cell lab</a>
       <a href="#b-cell-lab" data-view="b-cell-lab">B cell lab</a>
+      <a href="#cytokine-match" data-view="cytokine-match">Cytokine match</a>
       <a href="#summary" data-view="summary">Summary sheets</a>
     </nav>
   </div>
@@ -48,6 +49,12 @@
         <p>Predict the antibody response for any antigen and defect, then run a germinal center.</p>
         <ul><li>Td vs Ti vs conjugate vaccine</li><li>C3d/CR2, FcγRIIB, CD40L and AID toggles</li><li>Somatic hypermutation &amp; selection simulator</li></ul>
         <a class="btn primary" href="#b-cell-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
+        <h3>🧩 Cytokine Match</h3>
+        <p>Mix-and-match drill for every cytokine in both lectures.</p>
+        <ul><li>Match cytokine → function or cytokine → source</li><li>Rounds of 6, 10 or all 14</li><li>Full reference table underneath</li></ul>
+        <a class="btn primary" href="#cytokine-match">Start matching →</a>
       </div>
       <div class="card feature">
         <h3>📋 Summary Sheets</h3>
@@ -113,6 +120,27 @@
     <div class="model" id="m-b-gc"></div>
   </section>
 
+  <!-- ================= CYTOKINE MATCH ================= -->
+  <section class="view" id="view-cytokine-match">
+    <div class="eyebrow">Mix &amp; match</div>
+    <h2 class="title">Cytokine Match</h2>
+    <p class="lede">Click a cytokine on the left, then its match on the right. Wrong pairs flash red and count as a miss.</p>
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+          <div><div class="note" style="margin-bottom:4px">Match to</div><div class="seg" id="mMode"><button data-v="func" class="on">Function</button><button data-v="source">Source cell</button></div></div>
+          <div><div class="note" style="margin-bottom:4px">Round size</div><div class="seg" id="mSize"><button data-v="6" class="on">6</button><button data-v="10">10</button><button data-v="all">All 14</button></div></div>
+        </div>
+        <div style="display:flex;gap:8px"><button class="btn" id="mReveal">Reveal</button><button class="btn primary" id="mNew">New round</button></div>
+      </div>
+      <div class="progress" style="margin-top:14px"><div id="mProg"></div></div>
+      <div class="note" id="mScore"></div>
+    </div>
+    <div class="matchgrid"><div id="mLeft" class="mcol"></div><div id="mRight" class="mcol"></div></div>
+    <div id="mDone" class="callout" style="display:none;margin-top:14px"></div>
+    <details class="card" style="margin-top:20px"><summary style="cursor:pointer;font-weight:700">Reference: all cytokines (hidden so it doesn't give answers away; click to open)</summary><div class="tablewrap" style="margin-top:10px"><table class="sheet" id="mTable"></table></div></details>
+  </section>
+
   <!-- ================= SUMMARY ================= -->
   <section class="view" id="view-summary">
     <div class="eyebrow">Summary sheets</div>
@@ -172,6 +200,7 @@
 <script src="js/questions.js"></script>
 <script src="js/models.js"></script>
 <script src="js/quiz.js"></script>
+<script src="js/match.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
