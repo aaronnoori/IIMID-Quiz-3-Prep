@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IIMID Immunology Study Tools</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>IIMID <span>Immunology</span></h1>
+      <button class="themebtn" id="themeBtn">☀ Light</button>
+    </div>
+    <nav class="main" id="mainNav">
+      <a href="#home" data-view="home">Home</a>
+      <a href="#quiz" data-view="quiz">Practice quiz</a>
+      <a href="#t-cell-lab" data-view="t-cell-lab">T cell lab</a>
+      <a href="#b-cell-lab" data-view="b-cell-lab">B cell lab</a>
+      <a href="#summary" data-view="summary">Summary sheets</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <section class="view" id="view-home">
+    <div class="eyebrow">MBS-5150 · IIMID · Dr. Ozzie (Ou Zhang)</div>
+    <h2 class="title">Cell-Mediated &amp; Humoral Immunity Study Tools</h2>
+    <p class="lede">Clinical-vignette practice questions, interactive models you can knock genes out of, and condensed summary sheets for the T cell and B cell lectures.</p>
+    <div class="grid g2">
+      <div class="card feature">
+        <h3>📝 Practice Quiz</h3>
+        <p><span id="homeQCount">0</span> questions, from quick recall to clinical vignettes, with mechanism-focused explanations.</p>
+        <ul><li>Filter by lecture, priority, difficulty and status</li><li>Question map, flags and option cross-out</li><li>Progress saved in this browser</li></ul>
+        <a class="btn primary" href="#quiz">Open the quiz →</a>
+      </div>
+      <div class="card feature">
+        <h3>🧫 T Cell Lab</h3>
+        <p>Build the immunological synapse, steer Th0 differentiation, and test CTL killing pathways.</p>
+        <ul><li>Signal 1 / Signal 2 / CTLA-4 / PD-1 toggles</li><li>Cytokine milieu → Th1, Th2, Th17 with M1/M2 outcome</li><li>Perforin vs Fas-FasL knockouts</li></ul>
+        <a class="btn primary" href="#t-cell-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
+        <h3>🧬 B Cell Lab</h3>
+        <p>Predict the antibody response for any antigen and defect, then run a germinal center.</p>
+        <ul><li>Td vs Ti vs conjugate vaccine</li><li>C3d/CR2, FcγRIIB, CD40L and AID toggles</li><li>Somatic hypermutation &amp; selection simulator</li></ul>
+        <a class="btn primary" href="#b-cell-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
+        <h3>📋 Summary Sheets</h3>
+        <p>High-yield tables: Th subsets, CTL killing, Td vs Ti antigens, isotype switching cytokines, and look-alike deficiencies.</p>
+        <ul><li>Side-by-side comparisons</li><li>Built from the review handouts</li></ul>
+        <a class="btn primary" href="#summary">Open the sheets →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="view" id="view-quiz">
+    <div class="eyebrow">Practice quiz</div>
+    <h2 class="title">Practice questions</h2>
+    <div class="filters">
+      <label>Lecture <select id="fLecture"><option value="all">All</option><option value="T">Cell-mediated</option><option value="B">Humoral</option></select></label>
+      <label>Status <select id="fStatus"><option value="all">All</option><option value="un">Unanswered</option><option value="w">Incorrect</option><option value="f">Flagged</option></select></label>
+      <label>Priority <select id="fPriority"><option value="all">All</option><option value="must">Must know</option><option value="should">Should know</option><option value="nice">Nice to know</option></select></label>
+      <label>Difficulty <select id="fDiff"><option value="all">All</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard (vignette)</option></select></label>
+      <label>Order <select id="fOrder"><option value="shuffle">Shuffled</option><option value="seq">In order</option><option value="prio">Must know first</option></select></label>
+      <button class="btn" id="clearFilters">Clear filters</button>
+    </div>
+    <div class="qlayout">
+      <div class="card" id="qCard"></div>
+      <aside class="card qside">
+        <h3>Progress</h3>
+        <div class="progress"><div id="qProg"></div></div>
+        <div class="stat"><span>Answered</span><b id="sAns">0/0</b></div>
+        <div class="stat"><span>Correct</span><b id="sCor">0 (0%)</b></div>
+        <div class="map" id="qMap"></div>
+        <div class="key"><span><i style="background:var(--okbg);border-color:var(--ok)"></i>correct</span><span><i style="background:var(--badbg);border-color:var(--bad)"></i>incorrect</span><span><i style="background:var(--warn)"></i>flagged</span><span><i></i>unanswered</span></div>
+        <p class="note" style="margin-top:12px"><span class="kbd">1–5</span> answer · <span class="kbd">←</span><span class="kbd">→</span> move · <span class="kbd">F</span> flag · <span class="kbd">R</span> retry · <span class="kbd">Shift</span>+click cross out</p>
+        <button class="btn" id="clearAll" style="width:100%;justify-content:center;margin-top:6px">Clear all answers &amp; flags</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= T CELL LAB ================= -->
+  <section class="view" id="view-t-cell-lab">
+    <div class="eyebrow">Interactive models · Cell-mediated immunity</div>
+    <h2 class="title">T Cell Lab</h2>
+    <p class="lede">Flip the switches and watch the outcome change. Each model is built around a critical concept from the review handout.</p>
+    <div class="subnav" data-group="t">
+      <button data-model="t-act" class="on">① Activation &amp; regulation</button>
+      <button data-model="t-th">② Th differentiation</button>
+      <button data-model="t-ctl">③ CTL killing</button>
+    </div>
+    <div class="model on" id="m-t-act"></div>
+    <div class="model" id="m-t-th"></div>
+    <div class="model" id="m-t-ctl"></div>
+  </section>
+
+  <!-- ================= B CELL LAB ================= -->
+  <section class="view" id="view-b-cell-lab">
+    <div class="eyebrow">Interactive models · Humoral immunity</div>
+    <h2 class="title">B Cell Lab</h2>
+    <p class="lede">Pick an antigen, add or break pieces of the machinery, and predict the antibody profile before you look.</p>
+    <div class="subnav" data-group="b">
+      <button data-model="b-act" class="on">① Activation &amp; isotype predictor</button>
+      <button data-model="b-gc">② Germinal center simulator</button>
+    </div>
+    <div class="model on" id="m-b-act"></div>
+    <div class="model" id="m-b-gc"></div>
+  </section>
+
+  <!-- ================= SUMMARY ================= -->
+  <section class="view" id="view-summary">
+    <div class="eyebrow">Summary sheets</div>
+    <h2 class="title">High-yield tables</h2>
+    <p class="lede">Condensed from the IIMID review handouts. Use these to check yourself after the labs.</p>
+    <div class="grid" style="gap:18px">
+      <div class="card"><h3>T cell activation <span class="chip t">Cell-mediated</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Component</th><th>T cell side</th><th>APC side</th><th>Effect</th></tr>
+        <tr><td>Signal 1</td><td>TCR + CD4/CD8</td><td>Peptide–MHC II / MHC I</td><td>Antigen specificity</td></tr>
+        <tr><td>Signal 2 (costimulation)</td><td>CD28</td><td>B7-1/B7-2 (CD80/86)</td><td>Activation; without it → anergy</td></tr>
+        <tr><td>Adhesion</td><td>LFA-1</td><td>ICAM-1</td><td>Stabilizes the synapse</td></tr>
+        <tr><td>Proliferation</td><td>IL-2 + high-affinity IL-2R (CD25)</td><td>—</td><td>Autocrine clonal expansion</td></tr>
+        <tr><td>Inhibitory</td><td>CTLA-4</td><td>B7 (outcompetes CD28)</td><td>Terminates activation</td></tr>
+        <tr><td>Inhibitory</td><td>PD-1</td><td>PD-L1/PD-L2</td><td>Dampens effector T cells (exhaustion)</td></tr>
+      </table></div></div>
+      <div class="card"><h3>Helper T cell subsets <span class="chip t">Cell-mediated</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Subset</th><th>Driven by</th><th>Defining cytokines</th><th>Main job</th><th>Macrophage</th></tr>
+        <tr><td><b>Th1</b></td><td>IL-12, IFN-γ</td><td>IFN-γ</td><td>Intracellular microbes; activates macrophages; IgG opsonizing</td><td>M1 (classical)</td></tr>
+        <tr><td><b>Th2</b></td><td>IL-4</td><td>IL-4, IL-5, IL-13</td><td>Helminths: IL-4 → IgE switch; IL-5 → eosinophils; IL-13 mucus</td><td>M2 (alternative): IL-4/IL-13</td></tr>
+        <tr><td><b>Th17</b></td><td>IL-6 + TGF-β (IL-23 maintains)</td><td>IL-17, IL-22</td><td>Extracellular bacteria/fungi: neutrophil recruitment, antimicrobial peptides</td><td>—</td></tr>
+        <tr><td><b>Tfh</b></td><td>IL-6, IL-21</td><td>IL-21 (+ CD40L)</td><td>Germinal center help: selection, switching</td><td>—</td></tr>
+      </table></div><p class="note">Cross-regulation: IFN-γ inhibits Th2 and Th17; IL-4 inhibits Th1. Th1 → M1 (killing, inflammation); Th2 → M2 (repair, fibrosis).</p></div>
+      <div class="card"><h3>CTL killing <span class="chip t">Cell-mediated</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Pathway</th><th>Molecules</th><th>Mechanism</th><th>If missing</th></tr>
+        <tr><td>Granule exocytosis</td><td>Perforin + granzymes</td><td>Perforin lets granzymes into the target → caspase activation</td><td>Perforin deficiency (e.g., familial HLH): killing sharply reduced</td></tr>
+        <tr><td>Death receptor</td><td>FasL (CTL) → Fas (target)</td><td>FADD → caspase-8 → apoptosis</td><td>Fas/FasL defects → ALPS (lymphoproliferation, autoimmunity)</td></tr>
+      </table></div><p class="note">CD4 help for CD8: activated CD4 T cells license the DC through CD40L–CD40 (↑B7, ↑IL-12) and supply IL-2, so CD8 T cells expand and form memory.</p></div>
+      <div class="card"><h3>Td vs Ti antigens <span class="chip b">Humoral</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th></th><th>T-dependent (protein)</th><th>T-independent (polysaccharide, repeating)</th></tr>
+        <tr><td>Cognate T help</td><td>Yes (Tfh: CD40L + cytokines)</td><td>No; extensive BCR cross-linking ± TLR/C3d</td></tr>
+        <tr><td>Germinal center</td><td>Yes</td><td>Little or none</td></tr>
+        <tr><td>Isotype</td><td>Switched: IgG, IgA, IgE</td><td>Mostly IgM</td></tr>
+        <tr><td>Affinity maturation</td><td>Yes</td><td>Low</td></tr>
+        <tr><td>Memory</td><td>Long-lived memory &amp; plasma cells</td><td>Poor; short-lived</td></tr>
+        <tr><td>Example</td><td>HBsAg vaccine; conjugate vaccines</td><td>Pneumococcal polysaccharide vaccine (poor &lt; 2 y)</td></tr>
+      </table></div></div>
+      <div class="card"><h3>Isotype switch signals <span class="chip b">Humoral</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Signal from T cell</th><th>Result</th></tr>
+        <tr><td>CD40L + IL-4 / IL-13</td><td>IgE</td></tr>
+        <tr><td>CD40L + IL-21</td><td>IgG1, IgG3</td></tr>
+        <tr><td>CD40L + TGF-β (mucosal signals)</td><td>IgA</td></tr>
+        <tr><td>IL-21 (Tfh), beyond switching</td><td>Essential for germinal center development</td></tr>
+      </table></div><p class="note">Per lecture slide (Abbas fig 12.13). Switching changes only the heavy-chain constant region, so antigen specificity (variable region) is unchanged.</p></div>
+      <div class="card"><h3>Look-alike defects <span class="chip b">Humoral</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Defect</th><th>IgM</th><th>IgG/A/E</th><th>SHM / affinity</th><th>Key distinguisher</th></tr>
+        <tr><td>CD40L (T cell)</td><td>↑/nl</td><td>↓↓</td><td>↓ (no GC)</td><td>T cell defect; also impaired macrophage help → opportunists (e.g., <i>Pneumocystis</i>)</td></tr>
+        <tr><td>AID (B cell)</td><td>↑/nl</td><td>↓↓</td><td>Absent</td><td>B-intrinsic enzyme; T cells normal; large GCs</td></tr>
+        <tr><td>Igα/Igβ ITAMs</td><td colspan="3">BCR binds antigen but no tyrosine phosphorylation cascade</td><td>No activation despite binding</td></tr>
+        <tr><td>FcγRIIB loss</td><td colspan="3">No ITIM/phosphatase feedback brake</td><td>Excess activation, autoimmunity</td></tr>
+        <tr><td>CR2 (CD21) loss</td><td colspan="3">No C3d co-receptor boost</td><td>Higher antigen needed for activation</td></tr>
+      </table></div></div>
+    </div>
+  </section>
+</main>
+<footer>Built for IIMID exam prep from the course review handouts. Answers and flags are saved only in this browser.</footer>
+
+<script src="js/questions.js"></script>
+<script src="js/models.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
