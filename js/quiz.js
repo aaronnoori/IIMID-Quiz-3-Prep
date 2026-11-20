@@ -1,5 +1,6 @@
 /* Practice quiz: one question at a time, question map, flags, cross-out, saved progress */
 const Quiz = (() => {
+  const LECS = { T: ["t", "Cell-mediated"], B: ["b", "B cell activation"], E: ["e", "Humoral effector"], H: ["h", "Hypersensitivity"], A: ["a", "Tolerance & autoimmunity"] };
   const KEY = "iimid-quiz-v1";
   let st = { ans: {}, flag: {}, cross: {}, optOrder: {} };
   let list = [], cur = 0, seqOrder = [];
@@ -46,7 +47,7 @@ const Quiz = (() => {
     const chosen = st.ans[q.id];
     const done = chosen !== undefined;
     const crossed = st.cross[q.id] || [];
-    let h = `<div class="qhead"><div><span class="chip ${q.lec === "T" ? "t" : "b"}">${q.lec === "T" ? "Cell-mediated" : "Humoral"}</span> <span class="chip prio-${q.priority}">${{ must: "Must know", should: "Should know", nice: "Nice to know" }[q.priority]}</span> <span class="chip">${q.difficulty[0].toUpperCase() + q.difficulty.slice(1)}</span> <span class="chip">${esc(q.topic)}</span>${q.figure ? ' <span class="chip">🖼 Figure</span>' : ""}</div>
+    let h = `<div class="qhead"><div><span class="chip ${(LECS[q.lec] || ["", q.lec])[0]}">${(LECS[q.lec] || ["", q.lec])[1]}</span> <span class="chip prio-${q.priority}">${{ must: "Must know", should: "Should know", nice: "Nice to know" }[q.priority]}</span> <span class="chip">${q.difficulty[0].toUpperCase() + q.difficulty.slice(1)}</span> <span class="chip">${esc(q.topic)}</span>${q.figure ? ' <span class="chip">🖼 Figure</span>' : ""}</div>
       <div class="note">Question ${cur + 1} of ${list.length} <button class="btn" id="flagBtn" style="margin-left:8px">${st.flag[q.id] ? "★ Flagged" : "☆ Flag"}</button></div></div>
       ${q.figure ? `<div class="figure">${FIGS[q.figure]}${q.caption ? `<div class="cap">${esc(q.caption)}</div>` : ""}</div>` : ""}<p class="stem">${esc(q.stem)}</p><div id="opts">`;
     order.forEach((oi, k) => {

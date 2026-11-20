@@ -2,12 +2,12 @@
   --bg:#0f1218; --panel:#171b24; --panel2:#1e2330; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2a3142;
   --accent:#7aa2ff; --accent2:#b38cff; --ok:#3fca7a; --okbg:rgba(63,202,122,.12);
   --bad:#ff6b6b; --badbg:rgba(255,107,107,.12); --warn:#f5b84a; --warnbg:rgba(245,184,74,.12);
-  --t:#4fc3f7; --b:#f48fb1; --apc:#ffb74d; --shadow:0 4px 18px rgba(0,0,0,.35);
+  --t:#4fc3f7; --b:#f48fb1; --e:#ce93d8; --h:#ff8a65; --a:#81c784; --apc:#ffb74d; --shadow:0 4px 18px rgba(0,0,0,.35);
 }
 [data-theme="light"]{
   --bg:#f5f6f9; --panel:#ffffff; --panel2:#f0f2f7; --ink:#1b2130; --muted:#5d667a; --line:#dde1ea;
   --accent:#3b5bdb; --accent2:#7048e8; --ok:#2b8a3e; --okbg:#ebfbee; --bad:#e03131; --badbg:#fff5f5;
-  --warn:#b7791f; --warnbg:#fff8e6; --t:#0288d1; --b:#c2185b; --apc:#e67700; --shadow:0 2px 10px rgba(0,0,0,.06);
+  --warn:#b7791f; --warnbg:#fff8e6; --t:#0288d1; --b:#c2185b; --e:#8e24aa; --h:#d84315; --a:#2e7d32; --apc:#e67700; --shadow:0 2px 10px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -45,6 +45,9 @@ h3{margin:0 0 8px;font-size:1.08rem}
 .chip{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
 .chip.t{color:var(--t);border-color:color-mix(in srgb,var(--t) 40%,transparent)}
 .chip.b{color:var(--b);border-color:color-mix(in srgb,var(--b) 40%,transparent)}
+.chip.e{color:var(--e);border-color:color-mix(in srgb,var(--e) 40%,transparent)}
+.chip.h{color:var(--h);border-color:color-mix(in srgb,var(--h) 40%,transparent)}
+.chip.a{color:var(--a);border-color:color-mix(in srgb,var(--a) 40%,transparent)}
 .note{font-size:.85rem;color:var(--muted)}
 .callout{border-left:3px solid var(--accent);background:var(--panel2);padding:10px 14px;border-radius:8px;font-size:.92rem}
 .callout.ok{border-color:var(--ok);background:var(--okbg)}
@@ -139,3 +142,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;padding:20px 0 40px}
 .mitem .tag{display:inline-block;font-weight:800;color:var(--ok);margin-right:8px}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @media(max-width:600px){.matchgrid{grid-template-columns:110px 1fr}}
+
+.figure .tablewrap{background:var(--panel)}
+.figure table.figtable{font-size:.86rem}
+.sumhead{margin:26px 0 10px;font-size:1.15rem}

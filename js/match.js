@@ -3,7 +3,7 @@
    { name, func: what it does, source: main cell source }
    ===================================================================== */
 const CYTOKINES = [
-  { name: "IL-2",  func: "T cell growth factor: drives clonal proliferation through the high-affinity (αβγ) IL-2R", source: "Activated T cells (autocrine); CD4 helpers for CD8 cells" },
+  { name: "IL-2",  func: "T cell growth factor: drives clonal proliferation through the high-affinity (αβγ) IL-2R; Tregs consume it and depend on it for survival", source: "Activated T cells (autocrine); CD4 helpers for CD8 cells" },
   { name: "IL-4",  func: "Drives Th2 differentiation; switches B cells to IgE; inhibits Th1/Th17", source: "Th2 cells, mast cells, eosinophils" },
   { name: "IL-5",  func: "Recruits and activates eosinophils against helminths", source: "Th2 cells" },
   { name: "IL-13", func: "Increases goblet-cell mucus and smooth-muscle contraction; with IL-4, drives M2 macrophages and IgE", source: "Th2 cells" },
@@ -12,10 +12,12 @@ const CYTOKINES = [
   { name: "TNF",   func: "Activates neutrophils and promotes inflammation", source: "Th1 cells and activated macrophages" },
   { name: "IL-6",  func: "With TGF-β, converts naive CD4 cells into Th17 cells", source: "Dendritic cells (bacterial/fungal infection)" },
   { name: "IL-23", func: "Sustains and expands Th17 cells", source: "Activated dendritic cells" },
-  { name: "TGF-β", func: "Directs B cell switching to IgA; promotes Th17 when IL-6 or IL-1 is present", source: "Many cell types (mucosal signals)" },
+  { name: "TGF-β", func: "Directs B cell switching to IgA; generates inducible Tregs when no pro-inflammatory cytokine is present, but Th17 when IL-6 or IL-1 is", source: "Many cell types (mucosal signals); Tregs" },
   { name: "IL-17", func: "Makes epithelium and phagocytes release inflammatory cytokines and neutrophil-attracting chemokines", source: "Th17 cells" },
   { name: "IL-22", func: "Increases antimicrobial peptides and tight junction proteins in mucosal epithelium", source: "Th17 cells" },
   { name: "IL-21", func: "Essential for germinal center development; directs switching to IgG1/IgG3", source: "T follicular helper (Tfh) cells" },
+  { name: "IL-10", func: "Immunosuppressive: one of the inhibitory cytokines Tregs use to shut down self-reactive responses", source: "Regulatory T cells; macrophages" },
+  { name: "IL-35", func: "Immunosuppressive cytokine contributing to Treg-mediated suppression", source: "Regulatory T cells" },
   { name: "IL-7",  func: "Maintains memory T cells (anti-apoptotic proteins, slow homeostatic proliferation)", source: "Stromal cells (e.g., thymus)" }
 ];
 

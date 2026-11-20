@@ -18,6 +18,9 @@
       <a href="#quiz" data-view="quiz">Practice quiz</a>
       <a href="#t-cell-lab" data-view="t-cell-lab">T cell lab</a>
       <a href="#b-cell-lab" data-view="b-cell-lab">B cell lab</a>
+      <a href="#antibody-lab" data-view="antibody-lab">Antibody lab</a>
+      <a href="#hyper-lab" data-view="hyper-lab">Hypersensitivity lab</a>
+      <a href="#tolerance-lab" data-view="tolerance-lab">Tolerance lab</a>
       <a href="#cytokine-match" data-view="cytokine-match">Cytokine match</a>
       <a href="#summary" data-view="summary">Summary sheets</a>
     </nav>
@@ -29,13 +32,14 @@
   <!-- ================= HOME ================= -->
   <section class="view" id="view-home">
     <div class="eyebrow">MBS-5150 · IIMID · Dr. Ozzie (Ou Zhang)</div>
-    <h2 class="title">Cell-Mediated &amp; Humoral Immunity Study Tools</h2>
-    <p class="lede">Clinical-vignette practice questions, interactive models you can knock genes out of, and condensed summary sheets for the T cell and B cell lectures.</p>
+    <h2 class="title">IIMID Immunology Study Tools</h2>
+    <p class="lede">Clinical-vignette practice questions, interactive models you can knock genes out of, and condensed summary sheets — now across five lectures: cell-mediated immunity, B cell activation, humoral effector mechanisms, hypersensitivity, and immunologic tolerance &amp; autoimmunity.</p>
+    <div class="card" id="homeCov" style="margin-bottom:18px"></div>
     <div class="grid g2">
       <div class="card feature">
         <h3>📝 Practice Quiz</h3>
-        <p><span id="homeQCount">0</span> questions, from quick recall to clinical vignettes, with mechanism-focused explanations.</p>
-        <ul><li>Filter by lecture, priority, difficulty and status</li><li>Question map, flags and option cross-out</li><li>Progress saved in this browser</li></ul>
+        <p><span id="homeQCount">0</span> questions across all five lectures, from quick recall to clinical vignettes, with mechanism-focused explanations.</p>
+        <ul><li>Filter by lecture, priority, difficulty and status</li><li>Data figures: lab results, kinetics, transfer and knockout experiments</li><li>Question map, flags and option cross-out</li><li>Progress saved in this browser</li></ul>
         <a class="btn primary" href="#quiz">Open the quiz →</a>
       </div>
       <div class="card feature">
@@ -51,15 +55,33 @@
         <a class="btn primary" href="#b-cell-lab">Enter the lab →</a>
       </div>
       <div class="card feature">
+        <h3>🛡 Antibody Lab</h3>
+        <p>Humoral effector mechanisms: see what each isotype does, and what breaks when a receptor is missing.</p>
+        <ul><li>Isotype × effector matrix with Fab-only, FcγRI, CD16, FcεRI, C3, FcRn and pIgR knockouts</li><li>FcRn recycling with endosome and blood pH sliders</li><li>Maternal IgG and milk IgA in the first year</li></ul>
+        <a class="btn primary" href="#antibody-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
+        <h3>⚡ Hypersensitivity Lab</h3>
+        <p>Classify any reaction from two facts, then pull type I and type II apart.</p>
+        <ul><li>Reaction builder: immune reactant × antigen location → the type, with the eight non-pairings explained</li><li>Type I kinetics: block the IgE switch, FcεRI, histamine, leukotrienes or transcription</li><li>Type II: stimulating vs blocking vs opsonizing antibody on four targets</li></ul>
+        <a class="btn primary" href="#hyper-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
+        <h3>🛑 Tolerance Lab</h3>
+        <p>Walk a self-reactive lymphocyte through every checkpoint and break them one at a time.</p>
+        <ul><li>Central: AIRE, negative selection, receptor editing, antigen avidity</li><li>Peripheral: costimulation, Tregs, IL-2, CTLA-4, PD-1, TGF-β milieu</li><li>Breaking tolerance: risk genes plus mimicry or bystander activation</li></ul>
+        <a class="btn primary" href="#tolerance-lab">Enter the lab →</a>
+      </div>
+      <div class="card feature">
         <h3>🧩 Cytokine Match</h3>
-        <p>Mix-and-match drill for every cytokine in both lectures.</p>
-        <ul><li>Match cytokine → function or cytokine → source</li><li>Rounds of 6, 10 or all 14</li><li>Full reference table underneath</li></ul>
+        <p>Mix-and-match drill for every cytokine across the course, now including the Treg suppressors.</p>
+        <ul><li>Match cytokine → function or cytokine → source</li><li>Rounds of 6, 10 or all 16</li><li>Full reference table underneath</li></ul>
         <a class="btn primary" href="#cytokine-match">Start matching →</a>
       </div>
       <div class="card feature">
         <h3>📋 Summary Sheets</h3>
-        <p>High-yield tables: Th subsets, CTL killing, Td vs Ti antigens, isotype switching cytokines, and look-alike deficiencies.</p>
-        <ul><li>Side-by-side comparisons</li><li>Built from the review handouts</li></ul>
+        <p>High-yield tables: Th subsets, CTL killing, Td vs Ti antigens, isotype switching, look-alike deficiencies, antibody effector functions and transport, the four hypersensitivity types, and central vs peripheral tolerance.</p>
+        <ul><li>Side-by-side comparisons</li><li>Built from the review handouts</li><li>Now covering all five lectures, including the four hypersensitivity types and the tolerance checkpoints</li></ul>
         <a class="btn primary" href="#summary">Open the sheets →</a>
       </div>
     </div>
@@ -70,7 +92,7 @@
     <div class="eyebrow">Practice quiz</div>
     <h2 class="title">Practice questions</h2>
     <div class="filters">
-      <label>Lecture <select id="fLecture"><option value="all">All</option><option value="T">Cell-mediated</option><option value="B">Humoral</option></select></label>
+      <label>Lecture <select id="fLecture"><option value="all">All</option><option value="T">Cell-mediated</option><option value="B">B cell activation</option><option value="E">Humoral effector</option><option value="H">Hypersensitivity</option><option value="A">Tolerance &amp; autoimmunity</option></select></label>
       <label>Status <select id="fStatus"><option value="all">All</option><option value="un">Unanswered</option><option value="w">Incorrect</option><option value="f">Flagged</option></select></label>
       <label>Priority <select id="fPriority"><option value="all">All</option><option value="must">Must know</option><option value="should">Should know</option><option value="nice">Nice to know</option></select></label>
       <label>Difficulty <select id="fDiff"><option value="all">All</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard (vignette)</option></select></label>
@@ -120,6 +142,52 @@
     <div class="model" id="m-b-gc"></div>
   </section>
 
+  <!-- ================= ANTIBODY LAB ================= -->
+  <section class="view" id="view-antibody-lab">
+    <div class="eyebrow">Interactive models · Humoral effector mechanisms</div>
+    <h2 class="title">Antibody Lab</h2>
+    <p class="lede">The Fab region binds; the Fc region decides what happens next. Knock out receptors and transport systems and predict what each isotype can still do.</p>
+    <div class="subnav" data-group="e">
+      <button data-model="e-iso" class="on">① Isotype × effector matrix</button>
+      <button data-model="e-fcrn">② FcRn recycling</button>
+      <button data-model="e-infant">③ Maternal → infant transfer</button>
+    </div>
+    <div class="model on" id="m-e-iso"></div>
+    <div class="model" id="m-e-fcrn"></div>
+    <div class="model" id="m-e-infant"></div>
+  </section>
+
+
+  <!-- ================= HYPERSENSITIVITY LAB ================= -->
+  <section class="view" id="view-hyper-lab">
+    <div class="eyebrow">Interactive models · Hypersensitivity and related diseases</div>
+    <h2 class="title">Hypersensitivity Lab</h2>
+    <p class="lede">Two questions classify any reaction: what is the immune reactant, and where is the antigen. Build reactions from those parts, then take type I and type II apart.</p>
+    <div class="subnav" data-group="h">
+      <button data-model="h-build" class="on">① Reaction builder</button>
+      <button data-model="h-one">② Type I: sensitization &amp; mediators</button>
+      <button data-model="h-two">③ Type II: what the antibody does</button>
+    </div>
+    <div class="model on" id="m-h-build"></div>
+    <div class="model" id="m-h-one"></div>
+    <div class="model" id="m-h-two"></div>
+  </section>
+
+  <!-- ================= TOLERANCE LAB ================= -->
+  <section class="view" id="view-tolerance-lab">
+    <div class="eyebrow">Interactive models · Immunologic tolerance and autoimmunity</div>
+    <h2 class="title">Tolerance Lab</h2>
+    <p class="lede">Follow a self-reactive lymphocyte through each checkpoint. Break one and see what escapes, then add a genetic background and an infection.</p>
+    <div class="subnav" data-group="a">
+      <button data-model="a-central" class="on">① Central tolerance</button>
+      <button data-model="a-periph">② Peripheral T cell tolerance</button>
+      <button data-model="a-break">③ Breaking tolerance</button>
+    </div>
+    <div class="model on" id="m-a-central"></div>
+    <div class="model" id="m-a-periph"></div>
+    <div class="model" id="m-a-break"></div>
+  </section>
+
   <!-- ================= CYTOKINE MATCH ================= -->
   <section class="view" id="view-cytokine-match">
     <div class="eyebrow">Mix &amp; match</div>
@@ -129,7 +197,7 @@
       <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
         <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
           <div><div class="note" style="margin-bottom:4px">Match to</div><div class="seg" id="mMode"><button data-v="func" class="on">Function</button><button data-v="source">Source cell</button></div></div>
-          <div><div class="note" style="margin-bottom:4px">Round size</div><div class="seg" id="mSize"><button data-v="6" class="on">6</button><button data-v="10">10</button><button data-v="all">All 14</button></div></div>
+          <div><div class="note" style="margin-bottom:4px">Round size</div><div class="seg" id="mSize"><button data-v="6" class="on">6</button><button data-v="10">10</button><button data-v="all">All 16</button></div></div>
         </div>
         <div style="display:flex;gap:8px"><button class="btn" id="mReveal">Reveal</button><button class="btn primary" id="mNew">New round</button></div>
       </div>
@@ -192,13 +260,99 @@
         <tr><td>FcγRIIB loss</td><td colspan="3">No ITIM/phosphatase feedback brake</td><td>Excess activation, autoimmunity</td></tr>
         <tr><td>CR2 (CD21) loss</td><td colspan="3">No C3d co-receptor boost</td><td>Higher antigen needed for activation</td></tr>
       </table></div></div>
+      <h3 class="sumhead" style="grid-column:1/-1">Humoral immunity: effector mechanisms</h3>
+      <div class="card"><h3>Effector functions by isotype <span class="chip e">Humoral effector</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Function</th><th>Isotype(s)</th><th>Needs</th><th>Mechanism</th></tr>
+        <tr><td><b>Neutralization</b></td><td>IgG, IgA</td><td>Fab only</td><td>Blocks microbe/toxin binding to host cells; mucosal IgA blocks entry in gut and airway</td></tr>
+        <tr><td><b>Opsonization &amp; phagocytosis</b></td><td>IgG (IgG1, IgG3)</td><td>FcγRI (CD64)</td><td>Phagocytosis + phagocyte activation (ROS, NO, lysosomal enzymes)</td></tr>
+        <tr><td><b>ADCC</b></td><td>IgG</td><td>FcγRIIIA (CD16) on NK cells</td><td>Perforin/granzyme killing of antibody-coated cells (also macrophages, neutrophils, eosinophils)</td></tr>
+        <tr><td><b>Complement activation</b></td><td>IgM, IgG</td><td>Classical pathway</td><td>Lysis; C3b opsonization via complement receptors; inflammation (neutrophils)</td></tr>
+        <tr><td><b>Helminth killing</b></td><td>IgE</td><td>FcεRI on eosinophils, mast cells</td><td>Degranulation and toxic mediators; IL-5 (Th2) boosts eosinophils</td></tr>
+      </table></div><p class="note">Fab and Fc are spatially separate. Neutralization is purely Fab; every Fc function starts only after antigen is bound. Class switching and affinity maturation make antibodies more protective.</p></div>
+      <div class="card"><h3>Fc receptors <span class="chip e">Humoral effector</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Receptor</th><th>Affinity</th><th>Cells</th><th>Function</th></tr>
+        <tr><td><b>FcγRI (CD64)</b></td><td>High; IgG1, IgG3</td><td>Macrophages, neutrophils</td><td>Phagocytosis; phagocyte activation</td></tr>
+        <tr><td><b>FcγRIIB (CD32)</b></td><td>Low</td><td>B cells, DCs, mast cells, neutrophils, macrophages</td><td><b>Inhibitory (ITIM):</b> B cell feedback inhibition; attenuates inflammation</td></tr>
+        <tr><td><b>FcγRIIIA (CD16)</b></td><td>Low</td><td>NK cells</td><td>ADCC</td></tr>
+        <tr><td><b>FcεRI</b></td><td>High; IgE</td><td>Mast cells, basophils, eosinophils</td><td>Degranulation</td></tr>
+        <tr><td><b>FcRn</b></td><td>IgG at acidic pH</td><td>Placenta, endothelium, phagocytes</td><td>Recycles IgG (long half-life); placental transfer</td></tr>
+      </table></div></div>
+      <div class="card"><h3>Where antibodies are &amp; how they get there <span class="chip e">Humoral effector</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Isotype</th><th>Main location</th><th>Half-life</th><th>Transport</th></tr>
+        <tr><td><b>IgG</b></td><td>Blood, extracellular fluid, fetus</td><td>~21 days</td><td>FcRn: recycling and placenta (only isotype that crosses)</td></tr>
+        <tr><td><b>IgM</b></td><td>Blood</td><td>~2 days</td><td>—</td></tr>
+        <tr><td><b>IgA</b></td><td>Dimeric in secretions (gut, airway, milk); monomeric in extracellular fluid</td><td>—</td><td>pIgR: transcytosis of dimeric IgA into lumen and milk</td></tr>
+        <tr><td><b>IgE</b></td><td>On mast cells just beneath epithelia</td><td>~12 hours (free)</td><td>—</td></tr>
+      </table></div><p class="note"><b>FcRn:</b> binds IgG Fc in the acidic endosome (pH &lt;7) → recycling endosome → released at blood pH &gt;7. Other proteins go to lysosomes.</p></div>
+      <div class="card"><h3>Fetal &amp; neonatal immunity <span class="chip e">Humoral effector</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Maternal antibody</th><th>Route</th><th>Receptor</th><th>Protects</th></tr>
+        <tr><td><b>IgG</b></td><td>Placenta (syncytiotrophoblast) → fetal blood</td><td>FcRn</td><td>Systemically; newborn IgG ≈ mother's, protective ~6 months (infant FcRn prolongs half-life)</td></tr>
+        <tr><td><b>IgG (small amount)</b></td><td>Colostrum</td><td>—</td><td>Neonatal gut</td></tr>
+        <tr><td><b>Secretory IgA</b></td><td>Milk (main isotype)</td><td>pIgR on mammary epithelium</td><td>Coats infant GI mucosa; acts locally, not absorbed</td></tr>
+      </table></div></div>
+      <h3 class="sumhead" style="grid-column:1/-1">Hypersensitivity and related diseases</h3>
+      <div class="card"><h3>The four types at a glance <span class="chip h">Hypersensitivity</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th></th><th>Type I</th><th>Type II</th><th>Type III</th><th>Type IV</th></tr>
+        <tr><td><b>Immune reactant</b></td><td>IgE</td><td>IgG or IgM</td><td>IgG or IgM</td><td>T cells</td></tr>
+        <tr><td><b>Antigen</b></td><td>Environmental allergen</td><td>Fixed: on a cell surface or in extracellular matrix</td><td>Soluble, circulating</td><td>Presented in a tissue (processed peptide on MHC)</td></tr>
+        <tr><td><b>Timing</b></td><td>Minutes; late phase 2–24 h</td><td>Hours to days</td><td>~1 week for a new antigen</td><td>24–72 h (delayed)</td></tr>
+        <tr><td><b>Effector mechanism</b></td><td>Allergen cross-links IgE on FcεRI → mast cell degranulation</td><td>Complement lysis, opsonization and phagocytosis, ADCC; or altered receptor function</td><td>Immune complexes deposit → complement → neutrophils → enzyme-mediated injury</td><td>CD4+ cytokines → M1 macrophages; CD8+ CTL killing</td></tr>
+        <tr><td><b>Distribution</b></td><td>Local or systemic by route and dose</td><td>Limited to the tissue expressing the antigen</td><td>Systemic — wherever complexes settle</td><td>Limited to the tissue presenting the antigen</td></tr>
+        <tr><td><b>Examples</b></td><td>Allergic rhinitis, asthma, food allergy, anaphylaxis</td><td>Hemolytic anemia, hemolytic disease of the newborn, Graves', myasthenia gravis, pernicious anemia</td><td>Acute serum sickness, SLE</td><td>Contact dermatitis, celiac disease, type 1A diabetes</td></tr>
+      </table></div><p class="note">Types I–III are antibody-mediated; type IV is T cell-mediated. Types II and III share antibodies and effector tools and differ only in whether the antigen is fixed or soluble.</p></div>
+      <div class="card"><h3>Type I: the two phases and three mediator waves <span class="chip h">Hypersensitivity</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Phase</th><th>When</th><th>What is released</th><th>Effect</th></tr>
+        <tr><td><b>Sensitization</b></td><td>First exposure, days–weeks</td><td>—</td><td>Th2 and IL-4-producing Tfh help → B cells switch to IgE → IgE binds FcεRI on mast cells (which also prolongs its half-life)</td></tr>
+        <tr><td><b>Immediate reaction</b></td><td>Minutes, fades in ~1 h</td><td>Preformed granule contents: vasoactive amines (histamine), proteases</td><td>Vasodilation, vascular leakage, edema, smooth muscle contraction</td></tr>
+        <tr><td><b>Immediate, continued</b></td><td>Minutes to 1 h</td><td>Newly synthesized lipid mediators: prostaglandins, leukotrienes (phospholipase A2 → arachidonic acid)</td><td>Same actions, greater potency; bronchial smooth muscle contraction</td></tr>
+        <tr><td><b>Late-phase reaction</b></td><td>2–24 h</td><td>Cytokines requiring new transcription: IL-5, TNF</td><td>Infiltrate rich in eosinophils, plus neutrophils and T cells</td></tr>
+      </table></div><p class="note"><b>Atopy:</b> a predisposition to become IgE-sensitized to environmental allergens (40–60% risk if both parents are atopic, ~10% if neither). <b>Atopic march:</b> atopic dermatitis and food allergy in early childhood → allergic rhinitis → asthma.</p></div>
+      <div class="card"><h3>Type II: destroy the cell, or change what it does <span class="chip h">Hypersensitivity</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Disease</th><th>Target antigen</th><th>What the antibody does</th><th>Result</th></tr>
+        <tr><td>Autoimmune hemolytic anemia</td><td>Red cell surface antigen</td><td>Opsonizes and fixes complement</td><td>Splenic phagocytosis via Fc and C3b receptors; lysis → anemia, splenomegaly</td></tr>
+        <tr><td>Hemolytic disease of the newborn</td><td>Fetal red cell antigen (e.g., D)</td><td>Maternal IgG crosses the placenta via FcRn, then opsonizes</td><td>Fetal red cell destruction → anemia, hydrops</td></tr>
+        <tr><td>Graves' disease</td><td>TSH receptor</td><td><b>Stimulates</b> the receptor</td><td>Hormone made without TSH → hyperthyroidism, goiter, <i>low</i> TSH</td></tr>
+        <tr><td>Myasthenia gravis</td><td>Acetylcholine receptor (postsynaptic)</td><td><b>Blocks</b> ACh binding; receptor loss</td><td>No Na⁺ entry, end plate fails → fatigable weakness</td></tr>
+        <tr><td>Pernicious anemia</td><td>Intrinsic factor (secreted)</td><td><b>Blocks</b> its function</td><td>Vitamin B12 malabsorption → macrocytic anemia; no cell is attacked</td></tr>
+      </table></div></div>
+      <h3 class="sumhead" style="grid-column:1/-1">Immunologic tolerance and autoimmunity</h3>
+      <div class="card"><h3>Central vs peripheral tolerance <span class="chip a">Tolerance</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th></th><th>T cells</th><th>B cells</th></tr>
+        <tr><td><b>Central</b><div class="note">Primary lymphoid organ, immature cell</div></td><td><b>Thymus.</b> Negative selection: thymocytes binding self peptide–MHC with high affinity are deleted. <b>AIRE</b> drives expression of tissue-restricted antigens in medullary thymic epithelial cells so they can be tested against. Loss → APECED</td><td><b>Bone marrow.</b> High avidity (multivalent, membrane-bound antigen) → <b>receptor editing</b> (light chain V–J recombination resumes, new specificity) or deletion by apoptosis. Low avidity (soluble, monomeric) → anergy with reduced surface IgM</td></tr>
+        <tr><td><b>Peripheral</b><div class="note">Mature cell, secondary tissues</div></td><td><b>Anergy</b> (antigen without costimulation), <b>Treg suppression</b>, <b>deletion</b>, inhibitory receptors (<b>CTLA-4</b> early at priming, <b>PD-1</b> later in tissue), <b>ignorance</b></td><td><b>Anergy</b> (repeated self-antigen binding without T cell help; shortened lifespan), <b>deletion</b>, inhibitory receptors (e.g., FcγRIIB)</td></tr>
+      </table></div><p class="note">Central tolerance is necessarily incomplete — not every self antigen is represented, some appear later in life, and the deletion threshold deliberately spares weakly self-reactive cells — so peripheral mechanisms are always required.</p></div>
+      <div class="card"><h3>Regulatory T cells <span class="chip a">Tolerance</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Aspect</th><th>Detail</th></tr>
+        <tr><td><b>Markers</b></td><td>CD4+, CD25-high (IL-2Rα), FoxP3+</td></tr>
+        <tr><td><b>Natural (nTreg)</b></td><td>Arise in the <b>thymus</b> when developing CD4+ cells recognize self antigen; the majority of Tregs</td></tr>
+        <tr><td><b>Inducible (iTreg)</b></td><td>Arise in <b>peripheral</b> tissue with <b>TGF-β and no pro-inflammatory cytokines</b>. Add IL-6 and the same precursor becomes Th17 instead</td></tr>
+        <tr><td><b>IL-2</b></td><td>Tregs <i>consume</i> IL-2, they do not make it. IL-2 from conventional T cells → STAT5 → sustains FoxP3, survival and function</td></tr>
+        <tr><td><b>Mechanisms</b></td><td>① Inhibitory cytokines IL-10 and TGF-β ② consumption of IL-2 (metabolic disruption) ③ CTLA-4 engaging B7 on dendritic cells, removing costimulation ④ cytolysis by granzymes and perforin</td></tr>
+        <tr><td><b>Targeting</b></td><td>A Treg must see its own antigen to be activated, then suppresses other responses <i>in that tissue</i> — by location, not by shared specificity</td></tr>
+        <tr><td><b>FoxP3 loss</b></td><td><b>IPEX</b>: X-linked, infantile enteropathy, dermatitis and polyendocrinopathy</td></tr>
+      </table></div></div>
+      <div class="card"><h3>Why tolerance breaks <span class="chip a">Tolerance</span></h3><div class="tablewrap"><table class="sheet">
+        <tr><th>Factor</th><th>Detail</th></tr>
+        <tr><td><b>Genetic: HLA</b></td><td>Largest single contribution (~50% of genetic susceptibility). <b>Necessary but not sufficient</b> — risk haplotypes are common in healthy people and monozygotic concordance is well below 100%</td></tr>
+        <tr><td><b>Genetic: non-HLA</b></td><td>PTPN22, CTLA4, CD25 (IL2RA), FCGRIIB, IL23R, NOD2 — genes of immune response and regulation. Small individual effects, shared across diseases, so one patient may have two or more</td></tr>
+        <tr><td><b>Environmental</b></td><td>Infection, chronic inflammation, hormonal status, pollutants and carcinogens</td></tr>
+        <tr><td><b>Molecular mimicry</b></td><td>A microbial peptide resembles a self peptide → cross-activation of autoreactive T or B cells. <b>The target tissue is set by the self antigen, not by where the microbe was</b>, and the response persists after clearance. Rheumatic fever (cardiac myosin / <i>S. pyogenes</i>), MS (myelin basic protein / EBV), Graves' (TSH receptor / <i>Yersinia</i>), SLE (spliceosome / EBV)</td></tr>
+        <tr><td><b>Bystander activation</b></td><td>Infection activates tissue APCs → B7 and cytokines up → self-reactive T cells finally get signal 2. <b>Disease appears in the infected tissue</b>, with no sequence similarity required</td></tr>
+        <tr><td><b>Tissue injury</b></td><td>Uses the same effector mechanisms as hypersensitivity types <b>II, III and IV</b>; organ-specific vs systemic follows the distribution of the target antigen</td></tr>
+      </table></div></div>
     </div>
   </section>
 </main>
 <footer>Built for IIMID exam prep from the course review handouts. Answers and flags are saved only in this browser.</footer>
 
 <script src="js/questions.js"></script>
+<script src="js/lec-effector.js"></script>
+<script src="js/lec-hyper.js"></script>
+<script src="js/lec-tolerance.js"></script>
 <script src="js/models.js"></script>
+<script src="js/lab-effector.js"></script>
+<script src="js/lab-hyper.js"></script>
+<script src="js/lab-tolerance.js"></script>
 <script src="js/quiz.js"></script>
 <script src="js/match.js"></script>
 <script src="js/app.js"></script>
