@@ -7,6 +7,7 @@ const HyperLab = (() => {
   const wireSeg = (root, id, st, key, cb) => root.querySelectorAll(`#${id} button`).forEach(b => b.addEventListener("click", () => {
     st[key] = b.dataset.v; root.querySelectorAll(`#${id} button`).forEach(x => x.classList.toggle("on", x === b)); cb();
   }));
+  const bars = cols => `<div class="bars">${cols.map(([l, v, c]) => `<div class="col"><div class="bar" style="height:${Math.max(2, v)}%;background:${c}"></div><div class="lbl">${l}</div></div>`).join("")}</div>`;
 
   /* ---------------- 1. Reaction builder ---------------- */
   const REACTANTS = [["ige", "IgE"], ["ab", "IgG or IgM"], ["t", "T cells"]];
@@ -157,5 +158,141 @@ const HyperLab = (() => {
     wireSeg(root, "h2tSeg", st, "t", draw); wireSeg(root, "h2aSeg", st, "a", draw); draw();
   }
 
-  return { init() { if (!$("m-h-build")) return; builder(); typeOne(); typeTwo(); } };
+
+  /* ---------------- 4. Type III: immune complexes over time ---------------- */
+  function typeThree() {
+    const root = $("m-h-three");
+    const DEF = { day: 10 };
+    const st = { day: DEF.day, comp: true, neut: true };
+    // acute serum sickness after a single large dose of a foreign protein
+    const ag = d => d < 6 ? 100 - d * 3 : Math.max(2, 82 * Math.exp(-(d - 6) / 2.2));
+    const ab = d => d < 6 ? 0 : d < 13 ? Math.max(0, (d - 6) * 3) : Math.min(100, 21 + (d - 13) * 11);
+    const ic = d => 90 * Math.exp(-Math.pow((d - 10) / 2.4, 2));
+    const c3 = d => st.comp ? 85 - 45 * Math.exp(-Math.pow((d - 10.5) / 2.6, 2)) : 85;
+    root.innerHTML = `<div class="grid g2" style="grid-template-columns:minmax(280px,1fr) 2fr">
+      <div class="card"><h3>Acute serum sickness</h3>
+        <p class="note">A single large dose of a foreign protein on day 0. Scrub through the response.</p>
+        <label class="note" style="display:block;margin-top:14px">Day: <b id="h3Val"></b><input type="range" id="h3Day" min="0" max="21" step="1" value="${DEF.day}" style="width:100%"></label>
+        <button class="btn" id="h3Reset" style="width:100%;justify-content:center;margin-top:10px">↺ Back to the peak (day ${DEF.day})</button>
+        <div class="toggles" style="margin-top:14px">
+          ${toggle("comp", "Complement available", "C3 and the fragments that recruit leukocytes", true)}
+          ${toggle("neut", "Neutrophils available", "The cells that release the damaging enzymes", true)}
+        </div></div>
+      <div class="card"><div class="stage" id="h3Svg"></div><div class="facts" id="h3Facts"></div><div class="outcome" id="h3Out"></div></div></div>`;
+    const draw = () => {
+      const d = st.day;
+      $("h3Val").textContent = d;
+      const X = v => 56 + v * 22, Y = v => 186 - v * 1.62;
+      const curve = f => Array.from({ length: 85 }, (_, i) => i / 4).map((x, i) => `${i ? "L" : "M"}${X(x).toFixed(1)} ${Y(f(x)).toFixed(1)}`).join(" ");
+      const injury = ic(d) * (st.comp ? 1 : 0.3) * (st.neut ? 1 : 0.15);
+      $("h3Svg").innerHTML = `<svg viewBox="0 0 560 250" font-family="inherit">
+        <rect x="${X(8)}" y="22" width="${X(14) - X(8)}" height="164" style="fill:color-mix(in srgb,var(--h) 12%,transparent)"/>
+        <text x="${(X(8) + X(14)) / 2}" y="34" text-anchor="middle" font-size="10.5" style="fill:var(--h)">complexes deposit</text>
+        <line x1="56" y1="186" x2="530" y2="186" style="stroke:var(--muted);stroke-width:1.5"/><line x1="56" y1="20" x2="56" y2="186" style="stroke:var(--muted);stroke-width:1.5"/>
+        ${[0, 5, 10, 15, 20].map(v => `<text x="${X(v)}" y="202" text-anchor="middle" font-size="10.5" style="fill:var(--muted)">${v}</text>`).join("")}
+        <text x="293" y="218" text-anchor="middle" font-size="11.5" style="fill:var(--muted)">Days after the injection</text>
+        <path d="${curve(ag)}" style="fill:none;stroke:var(--warn);stroke-width:2.5"/>
+        <path d="${curve(ab)}" style="fill:none;stroke:var(--accent);stroke-width:2.5"/>
+        <path d="${curve(ic)}" style="fill:none;stroke:var(--bad);stroke-width:3"/>
+        <path d="${curve(c3)}" style="fill:none;stroke:${st.comp ? "var(--ok)" : "var(--line)"};stroke-width:2.5;stroke-dasharray:3 4"/>
+        <line x1="${X(d)}" y1="20" x2="${X(d)}" y2="186" style="stroke:var(--ink);stroke-width:2"/>
+        <circle cx="${X(d)}" cy="${Y(ic(d))}" r="5" style="fill:var(--bad);stroke:var(--panel);stroke-width:2"/>
+        <text x="${X(d)}" y="16" text-anchor="middle" font-size="11" font-weight="700" style="fill:var(--ink)">day ${d}</text>
+        ${[["Foreign protein", "var(--warn)", ""], ["Free antibody", "var(--accent)", ""], ["Immune complexes", "var(--bad)", ""], ["Serum C3", st.comp ? "var(--ok)" : "var(--line)", "3 4"]].map(([t, c, da], i) => `<line x1="${[56, 180, 310, 455][i]}" y1="240" x2="${[56, 180, 310, 455][i] + 20}" y2="240" style="stroke:${c};stroke-width:3${da ? `;stroke-dasharray:${da}` : ""}"/><text x="${[56, 180, 310, 455][i] + 25}" y="244" font-size="10.5" style="fill:var(--ink)">${t}</text>`).join("")}
+      </svg>`;
+      const lvl = v => v > 60 ? "High" : v > 25 ? "Moderate" : v > 8 ? "Low" : "Negligible";
+      const tone = v => v > 60 ? "no" : v > 25 ? "mid" : "yes";
+      $("h3Facts").innerHTML = [
+        ["Immune complexes", lvl(ic(d)), tone(ic(d))],
+        ["Serum C3", st.comp ? (c3(d) < 55 ? "Consumed (low)" : "Normal") : "Not measurable", st.comp ? (c3(d) < 55 ? "no" : "yes") : "mid"],
+        ["Tissue injury", lvl(injury), tone(injury)]
+      ].map(([k, v, c]) => `<div class="fact">${k}<b class="${c}">${v}</b></div>`).join("");
+      let v, note;
+      if (d < 6) { v = ["yes", "No disease yet — antibody has not been made"]; note = "The foreign protein is circulating, but the patient has had no previous exposure, so a switched IgG response against it takes about a week to develop. There is no antibody yet, therefore no complexes and nothing to deposit. This latency is the single most useful clue that separates type III from a type I reaction, which would have begun within minutes of the injection."; }
+      else if (d < 8) { v = ["mid", "Antibody appearing, complexes beginning to form"]; note = "Antibody is now being made and immediately meets the still-abundant foreign protein. Complexes are forming but have not yet accumulated enough to cause symptoms. Note that free antibody stays near zero through this period — everything made is consumed by the antigen still in the circulation."; }
+      else if (ic(d) > 25) {
+        if (!st.comp && !st.neut) { v = ["yes", "Complexes deposit, but almost no injury"]; note = "The complexes form and deposit exactly as before, so this is not a failure of the immune complex step. With neither complement nor neutrophils, the chain that converts a deposit into tissue damage is broken at both links, and the vessels, glomeruli and joints are spared. Complexes on their own do remarkably little."; }
+        else if (!st.comp) { v = ["mid", "Complexes deposit, injury much reduced"]; note = "Without complement there are no C5a and C3a fragments to recruit leukocytes to the deposits, so far fewer neutrophils arrive and injury falls sharply. Fc receptors on leukocytes still contribute, which is why some damage remains. Serum C3 obviously cannot be followed as a marker here — in a real patient a falling C3 is the sign that complement is being consumed at the deposits."; }
+        else if (!st.neut) { v = ["mid", "Complement consumed, but little injury"]; note = "This is the key dissociation. Complexes deposit and activate complement normally — serum C3 still falls — but with no neutrophils to answer the chemotactic signal, almost no tissue damage occurs. It is the enzymes released by recruited neutrophils, not the complexes or the complement themselves, that injure the vessel wall."; }
+        else { v = ["no", "Serum sickness — fever, rash, arthritis, nephritis"]; note = "Complexes are at their peak and depositing in small vessels, glomeruli, joints and skin. There they activate complement, which is why serum C3 falls as it is consumed, and C5a and C3a recruit neutrophils whose released enzymes damage the tissue. Because the antigen was soluble and circulating, the complexes travel and the disease is systemic — the contrast with type II, where antibody binds a fixed antigen and injury stays in one tissue."; }
+      }
+      else if (d < 16) { v = ["mid", "Resolving — the antigen is being cleared"]; note = "Forming complexes also clears the foreign protein, so the antigen is disappearing and complex levels are falling with it. Serum C3 recovers. This is why acute serum sickness is self-limited: the disease consumes its own trigger. Free antibody now begins to accumulate, because there is less and less antigen left to bind it."; }
+      else { v = ["yes", "Resolved, with antibody left over"]; note = "The foreign protein is gone, so no new complexes form and the deposits are cleared. Serum C3 is back to normal. The antibody response persists, which matters clinically: a second exposure to the same foreign protein meets a pre-existing antibody population and can produce complexes within hours rather than a week."; }
+      $("h3Out").innerHTML = `<div class="verdict ${v[0] === "mid" ? "" : v[0]}" style="${v[0] === "mid" ? "color:var(--warn)" : ""}">${v[1]}</div><div class="callout" style="margin-top:8px">${note}</div>`;
+    };
+    $("h3Day").addEventListener("input", e => { st.day = +e.target.value; draw(); });
+    $("h3Reset").addEventListener("click", () => { st.day = DEF.day; $("h3Day").value = DEF.day; draw(); });
+    wireToggles(root, st, draw); draw();
+  }
+
+  /* ---------------- 5. Type IV: T cells as reactant and effector ---------------- */
+  const T4 = {
+    hapten: {
+      label: "Contact hapten on skin", persists: false, source: "Avoidable — stop contact",
+      disease: "Allergic contact dermatitis",
+      body: "A small reactive chemical modifies host proteins, cutaneous dendritic cells present the modified peptides, and primed T cells are recruited back into the skin on re-exposure. CD4+ Th1 and Th17 cells supply the cytokines, and CD8+ CTLs kill keratinocytes directly, producing sharply demarcated plaques confined to the areas of contact.",
+      arms: { cd4: "Cytokines from CD4+ cells drive the inflammation and recruit the infiltrate", cd8: "CD8+ CTLs kill keratinocytes, producing the epidermal damage", mac: "Activated macrophages amplify the local inflammation" }
+    },
+    gluten: {
+      label: "Dietary peptide in gut", persists: false, source: "Avoidable — remove from diet",
+      disease: "Celiac disease",
+      body: "CD4+ T cells respond to gluten-derived peptides presented in the mucosa and release cytokines, while intraepithelial cytotoxic lymphocytes kill enterocytes. Losing enterocytes faster than they can be replaced gives villous atrophy with crypt hyperplasia, and the lost absorptive surface explains the diarrhea and iron deficiency. Removing the antigen from the diet reverses it.",
+      arms: { cd4: "CD4+ cells recognizing gluten peptides are the orchestrators of the whole response", cd8: "Intraepithelial cytotoxic lymphocytes kill the enterocytes — the direct cause of villous atrophy", mac: "Macrophage activation contributes to the mucosal inflammation" }
+    },
+    islet: {
+      label: "Islet β cell antigen", persists: false, source: "Self — cannot be avoided",
+      disease: "Type 1A diabetes",
+      body: "Islet autoantibodies are present and define the immune-mediated form, but they are not what kills the β cells: destruction is mediated by autoreactive T cells with CD8+ CTLs as the ultimate effectors. Once enough β cells are gone, insulin deficiency is absolute — which is why this is irreversible in a way contact dermatitis and celiac disease are not.",
+      arms: { cd4: "CD4+ cells provide help and cytokines that sustain the islet-specific response", cd8: "CD8+ CTLs are the ultimate effectors of β cell destruction", mac: "Macrophages contribute to islet inflammation" }
+    },
+    tb: {
+      label: "Persistent intracellular organism", persists: true, source: "Organism resists clearance",
+      disease: "Granuloma",
+      body: "The organism resists killing, so the antigen is never cleared and the cytokine signal never stops. Chronically activated macrophages change into epithelioid and multinucleated giant cells and aggregate into a nodule surrounded by lymphocytes. The granuloma represents containment rather than clearance, which is why it persists for as long as the organism does.",
+      arms: { cd4: "Sustained IFN-γ from CD4+ Th1 cells is what keeps the macrophages classically activated", cd8: "CD8+ CTLs kill infected cells, releasing organisms for the macrophages to handle", mac: "Classically activated (M1) macrophages are the cells that form the granuloma itself" }
+    }
+  };
+  function typeFour() {
+    const root = $("m-h-four");
+    const st = { ag: "hapten", cd4: true, cd8: true, mac: true };
+    root.innerHTML = `<div class="grid g2" style="grid-template-columns:minmax(280px,1fr) 2fr">
+      <div class="card"><h3>Antigen and effector arms</h3>
+        <div class="note" style="margin-bottom:4px">What the T cells are responding to</div>${seg("h4Seg", Object.entries(T4).map(([k, v]) => [k, v.label]), "hapten")}
+        <div class="toggles" style="margin-top:14px">
+          ${toggle("cd4", "CD4+ T cell cytokines", "IFN-γ from Th1 (and Th17 responses)", true)}
+          ${toggle("cd8", "CD8+ CTL killing", "Direct killing of target cells", true)}
+          ${toggle("mac", "Macrophage activation (M1)", "Classical activation by IFN-γ", true)}
+        </div>
+        <p class="note" style="margin-top:12px">In type IV reactions T cells are both the immune reactant and the effector — turn the arms off one at a time and watch which part of the lesion disappears.</p></div>
+      <div class="card"><h3 id="h4Title"></h3><div id="h4Bars"></div><div class="facts" id="h4Facts"></div><div class="outcome" id="h4Out"></div></div></div>`;
+    const draw = () => {
+      const A = T4[st.ag];
+      // CD4 cytokines orchestrate: without them macrophage activation cannot be sustained
+      const macActive = st.mac && st.cd4;
+      const w = { cd4: 0.4, cd8: 0.35, mac: 0.25 };
+      let mag = (st.cd4 ? w.cd4 : 0) + (st.cd8 ? w.cd8 : 0) + (macActive ? w.mac : 0);
+      if (st.ag === "islet") mag = (st.cd4 ? 0.3 : 0) + (st.cd8 ? 0.55 : 0) + (macActive ? 0.15 : 0);
+      if (st.ag === "tb") mag = (st.cd4 ? 0.45 : 0) + (st.cd8 ? 0.2 : 0) + (macActive ? 0.35 : 0);
+      const at = h => Math.round(mag * 100 * (h === 6 ? 0.12 : h === 24 ? 0.55 : h === 48 ? 0.9 : 1));
+      const gran = A.persists && macActive && st.cd4;
+      const name = A.persists && !gran ? "Chronic T cell inflammation, no granuloma" : A.disease;
+      $("h4Title").textContent = mag > 0.5 ? name : mag > 0.2 ? name + " — blunted" : "Little or no reaction";
+      $("h4Bars").innerHTML = bars([6, 24, 48, 72].map(h => [h + " h", Math.max(2, at(h)), mag > 0.5 ? "var(--h)" : mag > 0.2 ? "var(--warn)" : "var(--muted)"]));
+      $("h4Facts").innerHTML = [
+        ["Peak", "24–72 h", "mid"],
+        ["Antigen source", A.source, A.persists || st.ag === "islet" ? "no" : "yes"],
+        ["Granuloma", gran ? "Forms" : A.persists ? "Cannot form" : "Not expected", gran ? "no" : "yes"]
+      ].map(([k, v, c]) => `<div class="fact">${k}<b class="${c}">${v}</b></div>`).join("");
+      const off = [];
+      if (!st.cd4) off.push("<b>Without CD4+ cytokines:</b> " + A.arms.cd4 + ". These cells orchestrate the response, so macrophage activation collapses with them even if the macrophages themselves are intact.");
+      if (!st.cd8) off.push("<b>Without CD8+ CTLs:</b> " + A.arms.cd8 + ".");
+      if (!st.mac) off.push("<b>Without macrophage activation:</b> " + A.arms.mac + ".");
+      let head = `<p style="margin:10px 0">${A.body}</p>`;
+      if (!off.length) head += `<div class="callout">The reaction takes 24–72 hours because nothing is preformed: antigen must be presented locally, circulating memory T cells must be recruited into the tissue, and only then do they produce the cytokines that activate macrophages and generate the lesion. Compare a type I reaction, which uses granules that are already loaded and fires within minutes.${A.persists ? " Here the antigen is never cleared, so the cytokine signal never stops and the response organizes into a granuloma." : ""}</div>`;
+      $("h4Out").innerHTML = head + off.map(o => `<div class="callout warn" style="margin-top:8px">${o}</div>`).join("");
+    };
+    wireSeg(root, "h4Seg", st, "ag", draw); wireToggles(root, st, draw); draw();
+  }
+
+  return { init() { if (!$("m-h-build")) return; builder(); typeOne(); typeTwo(); typeThree(); typeFour(); } };
 })();

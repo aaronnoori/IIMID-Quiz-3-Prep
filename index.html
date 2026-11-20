@@ -62,8 +62,8 @@
       </div>
       <div class="card feature">
         <h3>⚡ Hypersensitivity Lab</h3>
-        <p>Classify any reaction from two facts, then pull type I and type II apart.</p>
-        <ul><li>Reaction builder: immune reactant × antigen location → the type, with the eight non-pairings explained</li><li>Type I kinetics: block the IgE switch, FcεRI, histamine, leukotrienes or transcription</li><li>Type II: stimulating vs blocking vs opsonizing antibody on four targets</li></ul>
+        <p>Classify any reaction from two facts, then pull all four types apart.</p>
+        <ul><li>Reaction builder: immune reactant × antigen location → the type, with the eight non-pairings explained</li><li>Type I kinetics: block the IgE switch, FcεRI, histamine, leukotrienes or transcription</li><li>Type II: stimulating vs blocking vs opsonizing antibody on four targets</li><li>Type III: scrub through serum sickness day by day, with complement and neutrophils removable</li><li>Type IV: four antigens × CD4 cytokines, CD8 killing and macrophage activation</li></ul>
         <a class="btn primary" href="#hyper-lab">Enter the lab →</a>
       </div>
       <div class="card feature">
@@ -162,15 +162,19 @@
   <section class="view" id="view-hyper-lab">
     <div class="eyebrow">Interactive models · Hypersensitivity and related diseases</div>
     <h2 class="title">Hypersensitivity Lab</h2>
-    <p class="lede">Two questions classify any reaction: what is the immune reactant, and where is the antigen. Build reactions from those parts, then take type I and type II apart.</p>
+    <p class="lede">Two questions classify any reaction: what is the immune reactant, and where is the antigen. Build reactions from those parts, then take each of the four types apart.</p>
     <div class="subnav" data-group="h">
       <button data-model="h-build" class="on">① Reaction builder</button>
       <button data-model="h-one">② Type I: sensitization &amp; mediators</button>
       <button data-model="h-two">③ Type II: what the antibody does</button>
+      <button data-model="h-three">④ Type III: immune complexes</button>
+      <button data-model="h-four">⑤ Type IV: T cell effectors</button>
     </div>
     <div class="model on" id="m-h-build"></div>
     <div class="model" id="m-h-one"></div>
     <div class="model" id="m-h-two"></div>
+    <div class="model" id="m-h-three"></div>
+    <div class="model" id="m-h-four"></div>
   </section>
 
   <!-- ================= TOLERANCE LAB ================= -->
